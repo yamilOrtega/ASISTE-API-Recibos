@@ -19,12 +19,12 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = "https://asiste-api-autenticacion.azurewebsites.net/",
-        ValidAudience = "https://asiste-api-recibos.azurewebsites.net/",
+        ValidAudiences = new List<string>{"API1"},
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisismycustomSecretkeyforauthentication"))
     };
 });
