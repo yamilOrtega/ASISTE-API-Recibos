@@ -12,10 +12,8 @@ namespace ASISTE_API_Recibos.Controllers
         [Authorize] // Requires a valid JWT token obtained from the first API
         public IActionResult GetSecureData()
         {
-            
             var username = User.Identity.Name; 
             var isAdmin = User.IsInRole("Admin"); 
-
             return Ok(new { Username = username, IsAdmin = isAdmin, Data = "This is secure from second API" });
         }
     }

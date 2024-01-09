@@ -10,6 +10,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var issuer = builder.Configuration.GetSection("ASISTE_API_JWT_CONFIGURATION:VALID_ISSUER").Value;
+var aud = builder.Configuration.GetSection("ASISTE_API_JWT_CONFIGURATION:VALID_AUDIENCES").Value;
+var audiences = aud.Split(",");
+var secretKey = builder.Configuration.GetSection("ASISTE_API_JWT_CONFIGURATION:SECRET_KEY").Value;
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -23,9 +28,9 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "https://asiste-api-autenticacion.azurewebsites.net/",
-        ValidAudiences = new List<string>{"API1"},
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisismycustomSecretkeyforauthentication"))
+        ValidIssuer = issuer,
+        ValidAudiences = audiences,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
     };
 });
 
